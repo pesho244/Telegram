@@ -5,6 +5,10 @@ export async function onRequestPost({ request, env }) {
     // PUT YOUR REAL TELEGRAM GROUP LINK HERE
     const TELEGRAM_LINK = "https://t.me/YOUR_GROUP_OR_INVITE_LINK";
 
+    if (!env.TURNSTILE_SECRET_KEY) {
+      return Response.json({ success: false, reason: "secret variable missing" }, { status: 500 });
+    }
+
     const formData = new FormData();
     formData.append("secret", env.TURNSTILE_SECRET_KEY);
     formData.append("response", token);
@@ -18,8 +22,11 @@ export async function onRequestPost({ request, env }) {
     if (outcome.success) {
       return Response.json({ success: true, telegramUrl: TELEGRAM_LINK });
     }
-    return Response.json({ success: false }, { status: 400 });
+    return Response.json(
+      { success: false, reason: outcome["error-codes"] },
+      { status: 400 }
+    );
   } catch (err) {
-    return Response.json({ success: false }, { status: 500 });
+    return Response.json({ success: false, reason: String(err) }, { status: 500 });
   }
 }
