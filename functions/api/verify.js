@@ -3,7 +3,7 @@ export async function onRequestPost({ request, env }) {
     const { token } = await request.json();
 
     // PUT YOUR REAL TELEGRAM GROUP LINK HERE
-    const TELEGRAM_LINK = "https://t.me/YOUR_GROUP_OR_INVITE_LINK";
+    const TELEGRAM_LINK = "https://t.me/https://t.me/Mentorbet88";
 
     if (!env.TURNSTILE_SECRET_KEY) {
       return Response.json({ success: false, reason: "secret variable missing" }, { status: 500 });
